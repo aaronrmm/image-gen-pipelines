@@ -21,7 +21,9 @@ if __name__ == "__main__":
     input_dir = os.path.abspath(args.input_dir)
     output_dir = os.path.abspath(args.output_dir)
     run_boostmonodepth(
-        img_names=os.listdir(args.input_dir),
-        src_folder=input_dir,
+        image_paths=[
+            os.path.join(args.input_dir, image_filename)
+            for image_filename in os.listdir(args.input_dir)
+        ],
         depth_folder=output_dir,
     )
