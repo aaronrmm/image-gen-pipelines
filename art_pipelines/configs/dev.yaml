@@ -1,5 +1,7 @@
 pipelines:
-  - convert_imagetype:
+  - pipeline:
+    name: convert_imagetype
     to_type: png
-  - convert_imagetype:
+  - pipeline:
+    name: convert_imagetype
     to_type: jpg
