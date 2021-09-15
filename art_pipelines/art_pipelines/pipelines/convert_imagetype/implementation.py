@@ -1,7 +1,10 @@
-import os
 from PIL import Image
 
-from art_pipelines.cv_types import FiletypeImage
+from art_pipelines.art_pipelines.cv_types import FiletypeImage
+
+
+def load(config):
+    pass
 
 
 def transform(config, input_path, output_path):
@@ -9,3 +12,7 @@ def transform(config, input_path, output_path):
     print(to_type.name)
     original = Image.open(input_path)
     original.save(output_path, format=to_type.value["PIL"])
+
+
+def destroy(config):
+    pass
