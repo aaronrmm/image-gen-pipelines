@@ -1,13 +1,14 @@
-import numpy as np
 from functools import partial
-import cv2
 
-k1 = 0.3358/2 # negative to remove barrel distortion
-k2 = 0.5534/2
-p1 = 0#-.001#-.005;
-p2 = 0#-.001#.01;
-focal_length_x = 500.
-focal_length_y = 500.
+import cv2
+import numpy as np
+
+k1 = 0.3358 / 2  # negative to remove barrel distortion
+k2 = 0.5534 / 2
+p1 = 0  # -.001#-.005;
+p2 = 0  # -.001#.01;
+focal_length_x = 500.0
+focal_length_y = 500.0
 
 
 def distort_vr(image: np.ndarray, **kwargs):
@@ -17,7 +18,16 @@ def distort_vr(image: np.ndarray, **kwargs):
     dst = cv2.hconcat([left_dst, right_dst])
     return dst
 
-def barrel_distort(image: np.ndarray, k1=0., k2=0., p1=0, p2=0., focal_length_x=0., focal_length_y=0.) -> np.ndarray:
+
+def barrel_distort(
+    image: np.ndarray,
+    k1=0.0,
+    k2=0.0,
+    p1=0,
+    p2=0.0,
+    focal_length_x=0.0,
+    focal_length_y=0.0,
+) -> np.ndarray:
     width = image.shape[1]
     height = image.shape[0]
     distCoeff = np.zeros((4, 1), np.float64)
@@ -37,19 +47,24 @@ def barrel_distort(image: np.ndarray, k1=0., k2=0., p1=0, p2=0., focal_length_x=
     dst = cv2.undistort(image, cam, distCoeff)
     return dst
 
+
 def split_image_h(image):
-    center = image.shape[1]//2
-    left = image[:,:center]
-    right = image[:,center:]
+    center = image.shape[1] // 2
+    left = image[:, :center]
+    right = image[:, center:]
     return left, right
+
 
 def cat_images_h(left, right):
     return cv2.hconcat([left, right])
 
+
 cardboard_distort = partial(
     barrel_distort,
-    k1=k1, k2=k2,
-    p1=p1, p2=p2,
+    k1=k1,
+    k2=k2,
+    p1=p1,
+    p2=p2,
     focal_length_x=focal_length_x,
-    focal_length_y=focal_length_y
+    focal_length_y=focal_length_y,
 )
