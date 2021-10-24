@@ -11,6 +11,8 @@ services:
       PYTHONPATH: /art_pipelines
       config_path: /home/jovyan/config.yaml
     volumes:
+      - ${input_dir:-./temp/inputs}:/inputs/:ro
+      - ${output_dir:-./outputs/}:/outputs/
       - ./temp:/home/jovyan/temp
       - ./art_pipelines/:/art_pipelines:ro
       - ${local_config_path:-./art_pipelines/configs/config.yaml}:/home/jovyan/config.yaml:ro
