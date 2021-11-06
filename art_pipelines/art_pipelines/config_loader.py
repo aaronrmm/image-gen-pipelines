@@ -6,16 +6,19 @@ import yaml
 
 config: Dict = None
 
+
 def reload_config():
     try:
         global config
-        with open(os.getenv("config_path","./configs/dev.yaml"), "r") as stream:
+        with open(os.getenv("config_path", "./configs/dev.yaml"), "r") as stream:
             try:
                 config = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
     except FileNotFoundError:
-        print(f"Could not find a config yaml file at {os.path.abspath(os.getenv('config_path','./configs/dev.yaml'))}")
+        print(
+            f"Could not find a config yaml file at {os.path.abspath(os.getenv('config_path','./configs/dev.yaml'))}"
+        )
 
 
 def print_config():

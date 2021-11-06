@@ -1,5 +1,6 @@
-import cv2
 import os
+
+import cv2
 
 from .distortion_utils import distort_vr
 
@@ -13,11 +14,15 @@ def transform(config, input_path, output_path):
 
     frame_generator = cv2.VideoCapture(input_path)
     success, frame = frame_generator.read()
-    assert success and frame is not None, f"No frames read from {os.path.abspath(input_path)}"
+    assert (
+        success and frame is not None
+    ), f"No frames read from {os.path.abspath(input_path)}"
     fps = frame_generator.get(cv2.CAP_PROP_FPS)
-    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    fourcc = cv2.VideoWriter_fourcc(*"MP4V")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    out = cv2.VideoWriter(output_path, fourcc, int(fps), (int(frame.shape[1]), int(frame.shape[0])))
+    out = cv2.VideoWriter(
+        output_path, fourcc, int(fps), (int(frame.shape[1]), int(frame.shape[0]))
+    )
 
     total_frames = frame_generator.get(cv2.CAP_PROP_FRAME_COUNT)
     print("total_frames", total_frames)
@@ -50,6 +55,7 @@ def transform(config, input_path, output_path):
     for frame in distorted_frames:
         out.write(frame)
     out.release()
+
 
 def destroy(config):
     pass
