@@ -1,6 +1,6 @@
 from PIL import Image
 
-from art_pipelines.art_pipelines.cv_types import FiletypeImage
+from ...cv_types import FiletypeImage
 
 
 def load(config):
