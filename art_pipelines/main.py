@@ -10,6 +10,7 @@ from art_pipelines.config_loader import config
 def run_pipelines(config: Dict = config):
     for pipeline in config["pipelines"]:
         pipeline_name = pipeline["name"]
+        print("Loading pipeline impl ", pipeline_name)
         pipeline_impl = importlib.import_module(
             f"art_pipelines.pipelines.{pipeline_name}.implementation", package="."
         )
