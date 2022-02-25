@@ -14,7 +14,6 @@ def transform(config, input_path, output_path):
     assert os.path.isfile(input_path)
     aspect_ratio = config.get("ratio", "1:1")
     crop = config.get("crop", False)
-
     frame_generator = cv2.VideoCapture(input_path)
     success, frame = frame_generator.read()
     assert (
