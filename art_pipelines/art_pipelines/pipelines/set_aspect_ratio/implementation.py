@@ -13,7 +13,7 @@ def load(config):
 def transform(config, input_path, output_path):
     assert os.path.isfile(input_path)
     aspect_ratio = config.get("ratio", "1:1")
-
+    crop = config.get("crop", False)
     frame_generator = cv2.VideoCapture(input_path)
     success, frame = frame_generator.read()
     assert (
@@ -32,7 +32,11 @@ def transform(config, input_path, output_path):
     distorted_frames = []
     while success and frame is not None:
 
-        distorted_frame = stretch(image=frame, aspect_ratio=aspect_ratio)
+        distorted_frame = (
+            crop_image(image=frame, aspect_ratio=aspect_ratio)
+            if crop
+            else stretch(image=frame, aspect_ratio=aspect_ratio)
+        )
         distorted_frames.append(distorted_frame)
 
         success, frame = frame_generator.read()
@@ -91,3 +95,18 @@ def stretch(image: np.ndarray, aspect_ratio: str = "1:1"):
                 constant_values=0,
             )
         )
+
+
+def crop_image(image: np.ndarray, aspect_ratio: str = "1:1"):
+    if aspect_ratio != "1:1":
+        raise NotImplementedError()
+    if aspect_ratio == "1:1":
+        difference = image.shape[0] - image.shape[1]
+        difference = max(difference, -difference)
+        crop = difference // 2, math.ceil(difference / 2)
+        new_top, new_bottom, new_left, new_right = 0, 0, 0, 0
+        if image.shape[0] > image.shape[1]:
+            new_image = np.copy(image[crop[0] : -crop[1]])
+        else:
+            new_image = np.copy(image[:, crop[0] : -crop[1]])
+        return new_image

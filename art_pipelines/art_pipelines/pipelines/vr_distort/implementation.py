@@ -1,6 +1,7 @@
 import os
 
 import cv2
+from tqdm.auto import tqdm
 
 from .distortion_utils import distort_vr
 
@@ -28,26 +29,28 @@ def transform(config, input_path, output_path):
     print("total_frames", total_frames)
     frames_processed = 0
     distorted_frames = []
-    while success and frame is not None:
+    with tqdm(total=total_frames) as pbar:
+        while success and frame is not None:
 
-        distorted_frame = distort_vr(
-            image=frame,
-            k1=config["k1"],
-            k2=config["k2"],
-            p1=config["p1"],
-            p2=config["p2"],
-            focal_length_x=config["focal_length_x"],
-            focal_length_y=config["focal_length_y"],
-        )
-        distorted_frames.append(distorted_frame)
+            distorted_frame = distort_vr(
+                image=frame,
+                k1=config["k1"],
+                k2=config["k2"],
+                p1=config["p1"],
+                p2=config["p2"],
+                focal_length_x=config["focal_length_x"],
+                focal_length_y=config["focal_length_y"],
+            )
+            distorted_frames.append(distorted_frame)
 
-        success, frame = frame_generator.read()
-        frames_processed += 1
-        if frames_processed % 100 == 0:
-            print("frames_processed", frames_processed)
-        if frames_processed > total_frames:
-            print("Too many frames!")
-            break
+            success, frame = frame_generator.read()
+            frames_processed += 1
+            if frames_processed % 100 == 0:
+                print("frames_processed", frames_processed)
+            if frames_processed > total_frames:
+                print("Too many frames!")
+                break
+            pbar.update(1)
 
     print("frames_processed", frames_processed)
     frame_generator.release()
