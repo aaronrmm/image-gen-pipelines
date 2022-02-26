@@ -14,7 +14,7 @@ def run_pipelines(config: Dict = config):
         pipeline_impl = importlib.import_module(
             f"art_pipelines.pipelines.{pipeline_name}.implementation", package="."
         )
-        pipeline_impl.load(config=config)
+        pipeline_impl.load(config=pipeline)
         input_dir = os.path.abspath(pipeline["input_dir"])
         output_dir = os.path.abspath(pipeline["output_dir"])
         os.makedirs(output_dir, exist_ok=True)
