@@ -46,7 +46,6 @@ class BsrganMagnifier:
         img_E = self.model(img_L)
         save_image(image=img_E, save_path=output_path)
         print(f"saved to {os.path.abspath(output_path)}")
-        #imsave(img_E, output_path)
 
 
     def destroy(self, config):
