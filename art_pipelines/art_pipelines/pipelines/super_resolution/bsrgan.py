@@ -14,7 +14,11 @@ class BsrganMagnifier:
         import sys
         assert os.path.isdir("./libs"), os.path.abspath("./libs")
         sys.path.append("../..")
-        from BSRGAN.models.network_rrdbnet import RRDBNet
+        try:
+            from BSRGAN.models.network_rrdbnet import RRDBNet
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("Could not find bsrgan lib. From the lib directory run `git clone "
+                                      "https://github.com/cszn/BSRGAN.git`")
         print(self.model)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print(f"BSRGAN on {self.device}")
