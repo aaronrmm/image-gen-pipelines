@@ -44,7 +44,13 @@ def get_image_dimensions(image):
 
 
 def concatenate_images(images: List, axis="horizontal"):
-    images = [PIL.Image.fromarray(image) for image in images]
+    images = [
+        PIL.Image.fromarray(
+            np.stack([image[:, :, 2], image[:, :, 1], image[:, :, 0]], axis=2),
+            mode="RGB",
+        )
+        for image in images
+    ]
     if axis == "horizontal":
         total_width = 0
         max_height = 0
