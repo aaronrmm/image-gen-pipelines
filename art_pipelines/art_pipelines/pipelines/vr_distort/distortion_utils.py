@@ -11,7 +11,7 @@ focal_length_x = 500.0
 focal_length_y = 500.0
 
 
-def distort_vr(image: np.ndarray, **kwargs):
+def distort_vr(image: np.ndarray, **kwargs)->np.ndarray:
     left, right = split_image_h(image)
     left_dst = barrel_distort(left, **kwargs)
     right_dst = barrel_distort(right, **kwargs)
