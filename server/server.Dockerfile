@@ -7,3 +7,7 @@ RUN pip install -r ./requirements.txt
 COPY ./server/requirements.txt ./server_requirements.txt
 RUN pip install -r ./server_requirements.txt
 RUN pip install uvicorn
+RUN pip install jupyterlab
+RUN pip install fastprogress
+RUN pip install ipywidgets
+RUN pip install pydantic

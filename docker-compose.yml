@@ -34,3 +34,35 @@ services:
     entrypoint: "uvicorn server.main:app --reload"
     ports:
       - "8000:8000"
+    # enable gpu for linux (runtime: nvidia) or windows (deploy:...)
+    #runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+
+  jupyterlab:
+    build:
+      context: .
+      dockerfile: ./server/server.Dockerfile
+    #image: pytorch/pytorch:latest
+    container_name: image_get_pipelines_jupyterlab
+    environment:
+      PYTHONPATH: /art_pipelines
+    volumes:
+      - ./art_pipelines/:/art_pipelines:ro
+      - ./server/:/workspace/server:ro
+    #entrypoint: "dir ./"
+    entrypoint: "bash -c 'jupyter lab --no-browser --ip=0.0.0.0 --port=8891 --allow-root'"
+    ports:
+      - "8891:8891"
+    # enable gpu for linux (runtime: nvidia) or windows (deploy:...)
+    #runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
