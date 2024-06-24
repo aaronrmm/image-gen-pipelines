@@ -3,6 +3,7 @@ import os
 import cv2
 from tqdm.auto import tqdm
 
+import image_utils
 from .distortion_utils import distort_vr
 
 
@@ -21,9 +22,6 @@ def transform(config, input_path, output_path):
     fps = frame_generator.get(cv2.CAP_PROP_FPS)
     fourcc = cv2.VideoWriter_fourcc(*"MP4V")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    out = cv2.VideoWriter(
-        output_path, fourcc, int(fps), (int(frame.shape[1]), int(frame.shape[0]))
-    )
 
     total_frames = frame_generator.get(cv2.CAP_PROP_FRAME_COUNT)
     print("total_frames", total_frames)
@@ -54,10 +52,27 @@ def transform(config, input_path, output_path):
 
     print("frames_processed", frames_processed)
     frame_generator.release()
-    print("writing video...")
-    for frame in distorted_frames:
-        out.write(frame)
-    out.release()
+    if output_path.endswith("mp4"):
+        out = cv2.VideoWriter(
+            output_path, fourcc, int(fps), (int(frame.shape[1]), int(frame.shape[0]))
+        )
+        print("writing video...")
+        for frame in distorted_frames:
+            out.write(frame)
+        out.release()
+    else:
+        if frames_processed == 1:
+            image_utils.save_image(
+                image=distorted_frames[0],
+                save_path=output_path
+            )
+        else:
+            for i, frame in enumerate(distorted_frames):
+                image_utils.save_image(
+                    image=frame,
+                    save_path=f"{os.path.splitext(output_path)[0]}_{i}{os.path.splitext(output_path)[1]}"
+                )
+
 
 
 def destroy(config):
