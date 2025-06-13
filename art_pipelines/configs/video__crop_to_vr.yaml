@@ -1,0 +1,27 @@
+pipelines:
+  - pipeline:
+    input_dir: ../temp/inputs/video/to_crop
+    name: set_aspect_ratio
+    crop: true
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/outputs/video/to_crop2
+    aspect_ratio: 1:1
+  - pipeline:
+    name: video_to_vr
+    include_types: [mp4]
+    to_type: mp4
+    input_dir: ../temp/outputs/video/to_crop2
+    output_dir: ../temp/outputs/video/to_crop3
+  - pipeline:
+    name: vr_distort
+    include_types: [mp4]
+    to_type: mp4
+    k1: 0.3358  # negative to remove barrel distortion
+    k2: 0.5534
+    p1: 0  # -.001#-.005;
+    p2: 0  # -.001#.01;
+    focal_length_x: 500.
+    focal_length_y: 500.
+    input_dir: ../temp/outputs/video/to_crop3
+    output_dir: ../temp/outputs/video/to_crop4

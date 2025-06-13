@@ -1,0 +1,38 @@
+pipelines:
+  - pipeline:
+    name: add_border
+    input_dir: ../temp/inputs/video
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/test_output/1/
+  - pipeline:
+    input_dir: ../temp/test_output/1/
+    name: set_aspect_ratio
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/test_output/2/
+    aspect_ratio: 1:1
+  - pipeline:
+    name: add_border
+    input_dir: ../temp/test_output/2/
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/test_output/3/
+  - pipeline:
+    input_dir: ../temp/test_output/3/
+    name: video_to_vr
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/test_output/4/
+  - pipeline:
+    input_dir: ../temp/test_output/4/
+    name: vr_distort
+    include_types: [mp4]
+    to_type: mp4
+    k1: 0.3358  # negative to remove barrel distortion
+    k2: 0.5534
+    p1: 0  # -.001#-.005;
+    p2: 0  # -.001#.01;
+    focal_length_x: 500.
+    focal_length_y: 500.
+    output_dir: ../temp/outputs/video/
