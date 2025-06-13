@@ -1,0 +1,7 @@
+pipelines:
+  - pipeline: -1
+    name: depth_estimation
+    input_dir: ./tests/test_input/
+    include_types: [png]
+    to_type: png
+    output_dir: ./

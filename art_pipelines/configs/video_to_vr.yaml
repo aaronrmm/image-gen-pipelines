@@ -1,0 +1,7 @@
+pipelines:
+  - pipeline:
+    input_dir: ../inputs
+    name: video_to_vr
+    include_types: [mp4]
+    to_type: mp4
+    output_dir: ../temp/outputs/

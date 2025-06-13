@@ -1,0 +1,26 @@
+pipelines:
+  - pipeline:
+    name: add_border
+    input_dir: ./tests/
+    include_types: [jpg]
+    to_type: jpg
+    output_dir: ./tests/test_output/1/
+  - pipeline:
+    input_dir: ./tests/test_output/1/
+    name: set_aspect_ratio
+    include_types: [jpg]
+    to_type: jpg
+    output_dir: ./tests/test_output/2/
+    aspect_ratio: 1:1
+  - pipeline:
+    name: add_border
+    input_dir: ./tests/test_output/2/
+    include_types: [jpg]
+    to_type: jpg
+    output_dir: ./tests/test_output/3/
+  - pipeline:
+    input_dir: ./tests/test_output/3/
+    name: video_to_vr
+    include_types: [jpg]
+    to_type: jpg
+    output_dir: ./tests/test_output/4/

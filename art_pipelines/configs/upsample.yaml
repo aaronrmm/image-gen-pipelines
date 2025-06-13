@@ -1,0 +1,11 @@
+pipelines:
+  - pipeline:
+    name: super_resolution
+    model_name: bsrgan
+    input_dir: ../inputs/my_art/
+    output_dir: ../temp/outputs/my_art
+  - pipeline:
+    name: super_resolution
+    model_name: swinir
+    input_dir: ../inputs/my_art/
+    output_dir: ../temp/outputs/my_art
